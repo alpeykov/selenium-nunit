@@ -10,6 +10,15 @@ This project is a Selenium-based test automation framework using N-UNIT to autom
 - ChromeDriver (compatible version with Chrome browser)
 - SeleniumExtras.WaitHelpers
 
+## Setup
+- git clone https://github.com/alpeykov/selenium-nunit
+- Open Foody.csproj
+- Build the projcet
+- Run the tests
+
+**Notes:**
+- Test #5 fails because there is a BUG.
+Edit functionality creates new item, instead of editing the last created one
 
 **Methods:**
 - **Setup**: Initializes the WebDriver, logs in with a predefined user, and sets up the test environment.
