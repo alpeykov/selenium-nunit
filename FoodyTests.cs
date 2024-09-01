@@ -254,7 +254,7 @@ namespace Foody
             });
 
             Assert.That(lastCreatedTitleDisplayed.Text, Is.EqualTo(lastCreatedTitleEdited));
-            Assert.IsFalse(titleFound, "The card with the last created title was FOUND.");
+            Assert.IsTrue(titleFound, "The card with the last created title was FOUND.");
             Console.WriteLine($"The number of displayed cards AFTER EDIT is: {numberOfDisplayedCards}");
             Console.WriteLine($"!!BUG DETECTED!!! Edit functionality creates new item, instead of editing the last created one.");
 

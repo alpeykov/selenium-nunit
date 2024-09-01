@@ -17,7 +17,7 @@ git clone https://github.com/alpeykov/selenium-nunit
 - Run the tests
 
 **Notes:**
-- Test #5 fails because there is a BUG.
+- Test #5 passes, BUT there is a BUG.
 Edit functionality creates new item, instead of editing the last created one
 
 **Methods:**
