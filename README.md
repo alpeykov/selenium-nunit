@@ -11,7 +11,7 @@ This project is a Selenium-based test automation framework using N-UNIT to autom
 - SeleniumExtras.WaitHelpers
 
 ## Setup
-- git clone https://github.com/alpeykov/selenium-nunit
+git clone https://github.com/alpeykov/selenium-nunit
 - Open Foody.csproj
 - Build the projcet
 - Run the tests
