@@ -47,6 +47,7 @@ namespace Foody
             driver.Dispose();
         }
 
+        //Random string generator
         private string GenerateRandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -55,6 +56,7 @@ namespace Foody
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        //Finds SINGLE element by selector.
         public static class Find
         {
             private static IWebDriver driver;
@@ -81,6 +83,8 @@ namespace Foody
             public static Func<string, IWebElement> PartialLinkText => locator => WaitForElement(() => By.PartialLinkText(locator));
         }
 
+        //Finds MULTIPLE elements by selector.
+
         public static class Finds
         {
             private static IWebDriver driver;
@@ -106,7 +110,8 @@ namespace Foody
             public static Func<string, IReadOnlyCollection<IWebElement>> LinkText => locator => WaitForElements(() => By.LinkText(locator));
             public static Func<string, IReadOnlyCollection<IWebElement>> PartialLinkText => locator => WaitForElements(() => By.PartialLinkText(locator));
         }
-
+        
+        //Login
         public void Login(string userName,string password)
         {
             Find.XPath("//a[@class='nav-link'][contains(.,'Log In')]").Click();
@@ -123,6 +128,7 @@ namespace Foody
             loginBtn.Click();
         }
 
+        //Create new item
         public void CreateItem(string foodName, string foodDescription)
         {
             var addFoodLink = Find.XPath("//a[@class='nav-link'][contains(.,'Add Food')]");
@@ -144,6 +150,8 @@ namespace Foody
 
 
         }
+        
+        //Get last item in the list
         public IWebElement GetLastCard()
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -152,6 +160,7 @@ namespace Foody
             return cards.Last();
         }
 
+        //Search method
         public void Search(string searchCriteria)
         {
             var searchInput = Find.XPath("//input[contains(@type,'search')]");
@@ -163,12 +172,14 @@ namespace Foody
 
         }
 
+        //Count displayed items
         public void CountDisplayedElements()
         {
             var elements = driver.FindElements(By.CssSelector(".row.gx-5.align-items-center"));
             numberOfDisplayedCards = elements.Count();
         }
 
+        //Test #1 - Add item with INVALID data
         [Test, Order(1)]
         public void AddItemInvalidData()
         {
@@ -187,6 +198,7 @@ namespace Foody
             Assert.That(descriptionErrorMsg.Text, Is.EqualTo("The Description field is required."));
         }
 
+        //Test #2 - Add item with VALID data
         [Test, Order(2)]
         public void AddItemValidData()
         {
@@ -212,6 +224,7 @@ namespace Foody
             Console.WriteLine($"The number of displayed cards is: {numberOfDisplayedCards}");
         }
 
+        //Test #3 - Edit the last created item
         [Test, Order(3)]
         public void EditLastAddedItem()
         {
@@ -248,6 +261,7 @@ namespace Foody
 
         }
 
+        //Test #4 - Search for last created item
         [Test, Order(4)]
         public void SearchForLastCreatedItem() {
             driver.Navigate ().GoToUrl(BaseUrl);
@@ -263,6 +277,8 @@ namespace Foody
 
 
         }
+
+        //Test #5 - Delete last created item
         [Test,Order(5)]
         public void DeleteLastItem()
         {
@@ -284,6 +300,7 @@ namespace Foody
             Assert.That(numberOfDisplayedCards, Is.EqualTo(DisplayedCardsBefore - 1));
         }
 
+        //Test #6 - Perform search for last created item.
         [Test,Order(6)]
         public void SearchForDeletedItem()
         {
