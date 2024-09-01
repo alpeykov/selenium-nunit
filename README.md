@@ -1,6 +1,6 @@
 # Selenium N-UNIT Test Project
 
-This project is a Selenium-based test automation framework using N-UNIT to automate the testing of web application. The project covers basic CRUD operations (Create, Read, Update, Delete) on items and tests various functionalities like login, search, and validation for input fields.
+This project is a Selenium-based test automation framework using N-UNIT to automate the testing of web application. The project covers basic CRUD operations on items and tests various functionalities like login, search, and validation for input fields.
 
 ## Tested app
 http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:85/
