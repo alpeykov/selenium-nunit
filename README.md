@@ -13,17 +13,17 @@ This project is a Selenium-based test automation framework using N-UNIT to autom
 ## Setup
 git clone https://github.com/alpeykov/selenium-nunit
 - Open Foody.csproj
-- Build the projcet
+- Build the project
 - Run the tests
 
 **Notes:**
 - Test #5 passes, BUT there is a BUG.
-Edit functionality creates new item, instead of editing the last created one
+Edit functionality creates new item, instead of editing the last created one.
 
 **Methods:**
 - **Setup**: Initializes the WebDriver, logs in with a predefined user, and sets up the test environment.
   
-- **GenerateRandomString(int length)**: Generates a random alphanumeric string of specified length. Useful for creating unique test data.
+- **GenerateRandomString(int length)**: Generates a random alphanumeric string of specified length.
 
 - **Find**: Provides utility functions to find a single element by different selectors (ID, Name, CSS, XPath, etc.). 
   - Example usage: `Find.Id("element-id")`
@@ -32,27 +32,27 @@ Edit functionality creates new item, instead of editing the last created one
 
 - **Login(string userName, string password)**: Logs in a user with the specified username and password.
 
-- **CreateItem(string foodName, string foodDescription)**: Creates a new food item with the provided name and description.
+- **CreateItem(string foodName, string foodDescription)**: Creates a new item with the provided name and description.
 
 - **GetLastCard()**: Returns the last displayed item card from the list on the UI.
 
 - **Search(string searchCriteria)**: Searches for items based on the provided search criteria.
 
-- **CountDisplayedElements()**: Counts and returns the number of item cards currently displayed on the page.
+- **CountDisplayedElements()**: Counts and returns the number of item cards currently displayed on the page. All items are displayed on a single page. There is no paggination.
 
 ## Tests
 
 1. **AddItemInvalidData**
-   - Description: Attempts to create a food item with invalid (empty) inputs.
-   - Expected Outcome: Validation error messages are displayed, and the item is not added.
+   - Description: Attempts to create an item with invalid (empty) inputs.
+   - Expected Outcome: Validation error messages are displayed, and the item is not supposed to be created successfully.
 
 2. **AddItemValidData**
-   - Description: Creates a food item with valid data.
-   - Expected Outcome: The item is successfully added, and the main page is displayed with the new item.
+   - Description: Creates an item with valid data.
+   - Expected Outcome: The item is successfully created and displayed on the page, where all items are displayed.
 
 3. **EditLastCreatedItem**
    - Description: Edits the last created item.
-   - Expected Outcome: The last item is updated with new data. The previous title should not be found.
+   - Expected Outcome: The last item is updated with new data. The previous title should not be present in the list of all items or available via search.
 
 4. **SearchForLastCreatedItem**
    - Description: Searches for the last created item using its title.
@@ -60,8 +60,8 @@ Edit functionality creates new item, instead of editing the last created one
 
 5. **DeleteLastItem**
    - Description: Deletes the last created item.
-   - Expected Outcome: The item count decreases by one.
+   - Expected Outcome: The item is successfully deleted and the count decreases by one.
 
 6. **SearchForDeletedItem**
-   - Description: Searches for a recently deleted item.
+   - Description: Searches for the item, that had just been deleted.
    - Expected Outcome: Displays a message indicating no items found, and the "Add Food" button is visible.
