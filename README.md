@@ -3,7 +3,7 @@
 This project is a Selenium-based test automation framework using N-UNIT to automate the testing of web application. The project covers basic CRUD operations on items and tests various functionalities like login, search, and validation for input fields.
 
 ## Tested app
-http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:85/
+[Link](http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:85/)
 
 ## Prerequisites
 - .NET SDK - latest version
@@ -13,7 +13,7 @@ http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:85/
 - SeleniumExtras.WaitHelpers
 
 ## Setup
-git clone https://github.com/alpeykov/selenium-nunit
+- git clone https://github.com/alpeykov/selenium-nunit
 - Open Foody.csproj
 - Build the project
 - Run the tests
