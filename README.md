@@ -69,9 +69,9 @@ Edit functionality creates new item, instead of editing the last created one.
    - Expected Outcome: Displays a message indicating no items found, and the "Add Food" button is visible.
 
 7. **Logout**
-   - Description: Logout from the current user.
-   - Expected Outcome: User is logged out.
+   - Description: Logs out from the current user session.
+   - Expected Outcome: The user is successfully logged out, and login/signup buttons are displayed.
   
 8. **Login**
    - Description: Logs in with the recently created user.
-   - Expected Outcome: The user is successfully logged in.
+   - Expected Outcome: The user is successfully logged in, and functionalities like adding food and logout are available.
