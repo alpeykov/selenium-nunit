@@ -71,7 +71,7 @@ Edit functionality creates new item, instead of editing the last created one.
 7. **Logout**
    - Description: Logout from the current user.
    - Expected Outcome: User is logged out.
-
-8.**Login**
-	- Description: Logs in with the recently created user.
-	- Expected Outcome: The user is successfully logged in.
+  
+8. **Login**
+   - Description: Logs in with the recently created user.
+   - Expected Outcome: The user is successfully logged in.
