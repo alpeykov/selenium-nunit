@@ -16,6 +16,8 @@ namespace Foody
         private static string? lastCreatedDescription;
         private static string? lastCreatedTitleEdited;
         private static int? numberOfDisplayedCards;
+        private static string? userName;
+
 
 
         [OneTimeSetUp]
@@ -35,7 +37,9 @@ namespace Foody
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Navigate().GoToUrl(BaseUrl);
 
-            Login("alp", "123456");
+            Registration();
+
+            //Login("alp", "123456");
 
         }
 
@@ -112,7 +116,7 @@ namespace Foody
         }
         
         //Login
-        public void Login(string userName,string password)
+        public void Login()
         {
             Find.XPath("//a[@class='nav-link'][contains(.,'Log In')]").Click();
 
@@ -122,10 +126,51 @@ namespace Foody
 
             var passwordInput = Find.Css("input#password");
             passwordInput.Clear();  
-            passwordInput.SendKeys(password);
+            passwordInput.SendKeys("123456");
 
             var loginBtn = Find.Css("[type='submit']");
             loginBtn.Click();
+        }
+
+        //Register new user
+        public void Registration()
+        {
+            userName = $"alp{GenerateRandomString(3)}";
+            Find.XPath("//a[@class='nav-link'][contains(.,'Sign Up')]").Click();
+
+            var usernameInput=Find.XPath("//input[contains(@id,'username')]");
+            usernameInput.Clear();
+            usernameInput.SendKeys(userName) ;
+
+            var emailInput = Find.XPath("//input[contains(@type,'email')]");
+            emailInput.Clear();
+            emailInput.SendKeys($"{userName}@yahoo.com");
+
+            var firstNameInput = Find.XPath("//input[contains(@id,'firstName')]");
+            firstNameInput.Clear();
+            firstNameInput.SendKeys("Al");
+
+            var middleNameInput = Find.XPath("//input[contains(@id,'midName')]");
+            middleNameInput.Clear();
+            middleNameInput.SendKeys("Pl");
+
+            var lastNameInput = Find.XPath("//input[contains(@id,'lastName')]");
+            lastNameInput.Clear();
+            lastNameInput.SendKeys("Pe");
+
+            var password = Find.XPath("//input[contains(@id,'password')]");
+            password.Clear();
+            password.SendKeys("123456");
+
+            var rePassword = Find.XPath("//input[contains(@id,'rePassword')]");
+            rePassword.Clear();
+            rePassword.SendKeys("123456");
+
+            var singupBtn=Find.XPath("//button[contains(.,'Sign up')]");
+            actions.MoveToElement(singupBtn).Click().Perform();
+            //singupBtn.Click();
+
+            Console.WriteLine($"Username:{userName}");
         }
 
         //Create new item
@@ -312,6 +357,33 @@ namespace Foody
 
             var addBtn = Find.XPath("//a[@class='btn btn-primary btn-xl rounded-pill mt-5'][contains(.,'Add food')]");
             Assert.IsTrue(addBtn.Displayed, "The 'Add food' button is not visible.");
+        }
+
+        [Test, Order(7)]
+
+        public void Logout() {
+            driver.Navigate().GoToUrl(BaseUrl);
+            Find.XPath("//a[@href='/User/Logout']").Click();
+
+            var loginBtn = Find.XPath("//a[@href='/User/Login']");
+            Assert.IsTrue(loginBtn.Displayed, "The 'Add food' button is not visible.");
+
+            var singupBtn = Find.XPath("//a[@href='/User/Register']");
+            Assert.IsTrue(singupBtn.Displayed, "The 'Add food' button is not visible.");
+        }
+
+        [Test, Order(8)]
+        public void PerformLogin() {
+            driver.Navigate().GoToUrl(BaseUrl);
+            Login();
+
+            var addFoodBtn = Find.XPath("//a[@href='/Food/Add']");
+            Assert.IsTrue(addFoodBtn.Displayed, "The 'Add food' button is not visible.");
+
+            var logoutBtn = Find.XPath("//a[@href='/User/Logout']");
+            Assert.IsTrue(logoutBtn.Displayed, "The 'Add food' button is not visible.");
+
+            Console.WriteLine($"Last created user: {userName}");
         }
     }
 }

@@ -23,7 +23,7 @@ This project is a Selenium-based test automation framework using N-UNIT to autom
 Edit functionality creates new item, instead of editing the last created one.
 
 **Methods:**
-- **Setup**: Initializes the WebDriver, logs in with a predefined user, and sets up the test environment.
+- **Setup**: Initializes the WebDriver, register an user, logs in with a predefined user, and sets up the test environment.
   
 - **GenerateRandomString(int length)**: Generates a random alphanumeric string of specified length.
 
@@ -67,3 +67,11 @@ Edit functionality creates new item, instead of editing the last created one.
 6. **SearchForDeletedItem**
    - Description: Searches for the item, that had just been deleted.
    - Expected Outcome: Displays a message indicating no items found, and the "Add Food" button is visible.
+
+7. **Logout**
+   - Description: Logout from the current user.
+   - Expected Outcome: User is logged out.
+
+8.**Login**
+	- Description: Logs in with the recently created user.
+	- Expected Outcome: The user is successfully logged in.
