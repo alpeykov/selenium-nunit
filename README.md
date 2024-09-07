@@ -2,6 +2,9 @@
 
 This project is a Selenium-based test automation framework using N-UNIT to automate the testing of web application. The project covers basic CRUD operations on items and tests various functionalities like login, search, and validation for input fields.
 
+## Logs
+This project also includes functionality for logging test information. Logs are saved in `./logs/log_tests.txt` and include details about each test execution.
+
 ## Tested app
 [Link](http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:85/)
 
@@ -17,6 +20,7 @@ This project is a Selenium-based test automation framework using N-UNIT to autom
 - Open Foody.csproj
 - Build the project
 - Run the tests
+
 
 **Notes:**
 - Test #5 passes, BUT there is a BUG.

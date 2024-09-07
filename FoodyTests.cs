@@ -3,6 +3,11 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using NUnit.Framework;
+using System.IO;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Foody
 {
@@ -12,11 +17,28 @@ namespace Foody
         private Actions actions;
 
         private static readonly string BaseUrl = "http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:85/";
+        private static string logFilePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "logs", "test_log.txt");
         private static string? lastCreatedTitle;
         private static string? lastCreatedDescription;
         private static string? lastCreatedTitleEdited;
         private static int? numberOfDisplayedCards;
         private static string? userName;
+
+        static FoodyTests()
+        {
+            var logDir = Path.GetDirectoryName(logFilePath);
+            if (!Directory.Exists(logDir))
+            {
+                Directory.CreateDirectory(logDir);
+            }
+        }
+
+        private void WriteLogs(string message)
+        {
+            string testName = TestContext.CurrentContext.Test.Name; // Get the current test name
+            string logMessage = $"{DateTime.Now}: [{testName}] {message}{Environment.NewLine}";
+            File.AppendAllText(logFilePath, logMessage);
+        }
 
 
 
@@ -170,7 +192,7 @@ namespace Foody
             actions.MoveToElement(singupBtn).Click().Perform();
             //singupBtn.Click();
 
-            Console.WriteLine($"Username:{userName}");
+            WriteLogs($"New user registered: {userName}");
         }
 
         //Create new item
@@ -254,19 +276,21 @@ namespace Foody
             Find.XPath("//a[@class='nav-link'][contains(.,'Add Food')]").Click();
 
             CreateItem(lastCreatedTitle, lastCreatedDescription);
-            Console.WriteLine($"Last created Title:{lastCreatedTitle}");
-            Console.WriteLine($"Last created Description:{lastCreatedDescription}");
+
+
+            WriteLogs($"Last created Title:{lastCreatedTitle}");
+            WriteLogs($"Last created Description:{lastCreatedDescription}");
 
             string expectedUrl = $"{BaseUrl}";
             Assert.That(driver.Url, Is.EqualTo(expectedUrl), "The URL after creation did not match the expected URL.");
 
             var lastCard = GetLastCard();
             var lastCreatedTitleDisplayed = lastCard.FindElement(By.CssSelector("div.p-5>h2"));
-            Console.WriteLine($"Title text of the last item in the list: {lastCreatedTitleDisplayed.Text}");
+            WriteLogs($"Title text of the last item in the list: {lastCreatedTitleDisplayed.Text}");
             Assert.That(lastCreatedTitleDisplayed.Text, Is.EqualTo(lastCreatedTitle));
 
             CountDisplayedElements();
-            Console.WriteLine($"The number of displayed cards is: {numberOfDisplayedCards}");
+            WriteLogs($"The number of displayed cards is: {numberOfDisplayedCards}");
         }
 
         //Test #3 - Edit the last created item
@@ -277,7 +301,7 @@ namespace Foody
 
             lastCreatedTitleEdited = $"Edited Title {GenerateRandomString(3)}";
             CountDisplayedElements();
-            Console.WriteLine($"The number of displayed cards BEFORE EDIT is: {numberOfDisplayedCards}");
+            WriteLogs($"The number of displayed cards BEFORE EDIT is: {numberOfDisplayedCards}");
 
 
             var lastCard = GetLastCard();
@@ -288,7 +312,7 @@ namespace Foody
 
             lastCard = GetLastCard();
             var lastCreatedTitleDisplayed = lastCard.FindElement(By.CssSelector("div.p-5>h2"));
-            Console.WriteLine($"Title text of the last item in the list: {lastCreatedTitleDisplayed.Text}");
+            WriteLogs($"Title text of the last item in the list: {lastCreatedTitleDisplayed.Text}");
             CountDisplayedElements();
 
             var cards = driver.FindElements(By.CssSelector(".row.gx-5.align-items-center"));
@@ -300,8 +324,8 @@ namespace Foody
 
             Assert.That(lastCreatedTitleDisplayed.Text, Is.EqualTo(lastCreatedTitleEdited));
             Assert.IsTrue(titleFound, "The card with the last created title was FOUND.");
-            Console.WriteLine($"The number of displayed cards AFTER EDIT is: {numberOfDisplayedCards}");
-            Console.WriteLine($"!!BUG DETECTED!!! Edit functionality creates new item, instead of editing the last created one.");
+            WriteLogs($"The number of displayed cards AFTER EDIT is: {numberOfDisplayedCards}");
+            WriteLogs($"!!BUG DETECTED!!! Edit functionality creates new item, instead of editing the last created one.");
 
 
         }
@@ -313,11 +337,11 @@ namespace Foody
 
             Search(lastCreatedTitle);
             CountDisplayedElements();
-            Console.WriteLine($"The number of displayed cards is: {numberOfDisplayedCards}");
+            WriteLogs($"The number of displayed cards is: {numberOfDisplayedCards}");
             Assert.That(numberOfDisplayedCards,Is.EqualTo(1));
 
             var lastCreatedTitleDisplayed = driver.FindElement(By.CssSelector("div.p-5>h2"));
-            Console.WriteLine($"Title text of the last item in the SEARCH list: {lastCreatedTitleDisplayed.Text}");
+            WriteLogs($"Title text of the last item in the SEARCH list: {lastCreatedTitleDisplayed.Text}");
             Assert.That(lastCreatedTitleDisplayed.Text, Is.EqualTo(lastCreatedTitle));
 
 
@@ -330,7 +354,7 @@ namespace Foody
             driver.Navigate ().GoToUrl(BaseUrl);
 
             CountDisplayedElements();
-            Console.WriteLine($"The number of displayed cards BEFORE delete is: {numberOfDisplayedCards}");
+            WriteLogs($"The number of displayed cards BEFORE delete is: {numberOfDisplayedCards}");
             var DisplayedCardsBefore = numberOfDisplayedCards;
 
             var lastCard = GetLastCard();
@@ -339,7 +363,7 @@ namespace Foody
 
             driver.Navigate ().GoToUrl(BaseUrl);
             CountDisplayedElements();
-            Console.WriteLine($"The number of displayed cards AFTER delete is: {numberOfDisplayedCards}");
+            WriteLogs($"The number of displayed cards AFTER delete is: {numberOfDisplayedCards}");
             var DisplayedCardsAfter = numberOfDisplayedCards;
 
             Assert.That(numberOfDisplayedCards, Is.EqualTo(DisplayedCardsBefore - 1));
@@ -383,7 +407,7 @@ namespace Foody
             var logoutBtn = Find.XPath("//a[@href='/User/Logout']");
             Assert.IsTrue(logoutBtn.Displayed, "The 'Add food' button is not visible.");
 
-            Console.WriteLine($"Last created user: {userName}");
+            WriteLogs($"Last created user: {userName}");
         }
     }
 }
